@@ -1,4 +1,4 @@
-# Tablas para la BD instituto
+# Tablas para la BD instituto. Crear la BD préviamente
 
 CREATE TABLE curso (
     id INT AUTO_INCREMENT PRIMARY KEY,
