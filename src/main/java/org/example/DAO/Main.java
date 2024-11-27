@@ -54,7 +54,7 @@ public class Main {
             System.out.println("Introduce el ID de un alumno a actualizar: ");
             int idActualizar = scanner.nextInt();
             Alumno alumnoAActualizar = alumnoDAO.findById(idActualizar);
-            if (alumnoABorrar != null) {
+            if (alumnoAActualizar != null) {
                 System.out.println("Nombre actual: " + alumnoAActualizar.getNombre() + ". Introduce el nuevo nombre: ");
                 String nuevoNombre = scanner.next();
                 alumnoAActualizar.setNombre(nuevoNombre);

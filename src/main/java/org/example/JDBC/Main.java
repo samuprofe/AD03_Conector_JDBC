@@ -11,33 +11,7 @@ public class Main {
     public static void main(String[] args) {
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD)) {
 
-            // Crear tablas
-            String createCurso = """
-                    CREATE TABLE IF NOT EXISTS curso (
-                        id INT AUTO_INCREMENT PRIMARY KEY,
-                        codigo VARCHAR(255) NOT NULL,
-                        titulo VARCHAR(255) NOT NULL
-                    );
-                    """;
-            String createAlumno = """
-                    CREATE TABLE IF NOT EXISTS alumno (
-                        id INT AUTO_INCREMENT PRIMARY KEY,
-                        nombre VARCHAR(255) NOT NULL,
-                        apellidos VARCHAR(255) NOT NULL,
-                        edad INT NOT NULL,
-                        fecha_registro DATETIME NOT NULL,
-                        id_curso INT,
-                        FOREIGN KEY (id_curso) REFERENCES curso(id) ON DELETE SET NULL
-                    );
-                    """;
-            try (Statement stmt = connection.createStatement()) {
-                stmt.execute(createCurso);
-                stmt.execute(createAlumno);
-            }catch (SQLException ex){
-                System.out.println("Error al ejecutar query: " + ex.getErrorCode() + " " + ex.getSQLState());
-            }
-
-            // Insertar un curso recuperando la id que se le ha asignado para utilizarlo al insertar después los alumnos
+            // Insertar un curso recuperando la id que se le ha asignado la BD al campo autonumérico. Este id lo necesitamos para insertar después los alumnos.
             String insertarCursoSQL = "INSERT INTO curso (codigo, titulo) VALUES (?, ?)";
             int idCurso;
             try (PreparedStatement stmt = connection.prepareStatement(insertarCursoSQL, Statement.RETURN_GENERATED_KEYS)) {
