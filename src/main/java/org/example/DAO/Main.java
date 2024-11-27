@@ -2,7 +2,9 @@ package org.example.DAO;
 
 
 import org.example.DAO.DAO.AlumnoDAO;
+import org.example.DAO.DAO.AlumnoDAOImpl;
 import org.example.DAO.DAO.CursoDAO;
+import org.example.DAO.DAO.CursoDAOImpl;
 import org.example.DAO.entities.Alumno;
 import org.example.DAO.entities.Curso;
 
@@ -19,8 +21,8 @@ public class Main {
 
     public static void main(String[] args) {
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD)) {
-            CursoDAO cursoDAO = new CursoDAO(connection);
-            AlumnoDAO alumnoDAO = new AlumnoDAO(connection);
+            CursoDAOImpl cursoDAO = new CursoDAOImpl(connection);
+            AlumnoDAOImpl alumnoDAO = new AlumnoDAOImpl(connection);
             Scanner scanner = new Scanner(System.in);
 
             // Crear un curso
@@ -48,6 +50,20 @@ public class Main {
             } else {
                 System.out.println("No se encontró un alumno con el ID proporcionado.");
             }
+
+            System.out.println("Introduce el ID de un alumno a actualizar: ");
+            int idActualizar = scanner.nextInt();
+            Alumno alumnoAActualizar = alumnoDAO.findById(idActualizar);
+            if (alumnoABorrar != null) {
+                System.out.println("Nombre actual: " + alumnoAActualizar.getNombre() + ". Introduce el nuevo nombre: ");
+                String nuevoNombre = scanner.next();
+                alumnoAActualizar.setNombre(nuevoNombre);
+                alumnoDAO.update(alumnoAActualizar);
+                System.out.println("Alumno actualizado: " + alumnoAActualizar);
+            } else {
+                System.out.println("No se encontró un alumno con el ID proporcionado.");
+            }
+
 
         } catch (SQLException e) {
             e.printStackTrace();
